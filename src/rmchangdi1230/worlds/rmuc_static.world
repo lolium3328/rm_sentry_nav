@@ -1,0 +1,94 @@
+<?xml version="1.0" ?>
+<sdf version='1.7'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+
+    <gravity>0 0 -9.8</gravity>
+
+    <!-- 原版为经典 Gazebo 的 ODE 物理, 迁移到 gz-sim 的 dartsim -->
+    <physics name="1ms" type="dartsim">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+
+    <model name='RMchangdi1230'>
+      <static>1</static>
+      <link name='base_link'>
+        <inertial>
+          <pose>13.983 7.4613 0.043771 0 -0 0</pose>
+          <mass>242650</mass>
+          <inertia>
+            <ixx>3.1217e+06</ixx>
+            <ixy>-46298</ixy>
+            <ixz>-933.17</ixz>
+            <iyy>9.8875e+06</iyy>
+            <iyz>-167.04</iyz>
+            <izz>1.3e+07</izz>
+          </inertia>
+        </inertial>
+        <!-- 碰撞不直接用 51MB 的 STL: dartsim 不支持 STL 碰撞, bullet 加载会卡死。
+             碰撞改用简化地面(见下方 ground_plane 模型); 视觉保留完整 STL,
+             供渲染与 gpu_lidar 光线投射(雷达感知障碍)使用。 -->
+        <visual name='base_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>../meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+
+    <!-- 简化地面碰撞(替代 51MB STL 碰撞), 保证机器人有地面支撑而不穿透 -->
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+      </link>
+    </model>
+  </world>
+</sdf>
