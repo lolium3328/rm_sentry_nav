@@ -117,11 +117,12 @@ source install/setup.bash
 ### 阶段 0:环境(Docker)——已完成 ✅
 `docker/Dockerfile` + `docker/docker-compose.yml` + `docker/entrypoint.sh` 已就位, 镜像 `sentry:jazzy` 已构建并验证。
 
-### 阶段 1:`sentry_msgs`(依赖最少,先做)
+### 阶段 1:`sentry_msgs` —— 已完成 ✅(见 `docs/experiments/001-sentry-msgs-migration.md`)
 - `package.xml` → `ament_cmake` 格式;
 - `CMakeLists.txt` 用 `rosidl_generate_interfaces` 替换 `add_message_files/generate_messages`;
-- 现有 `.msg/.srv` 字段基本可用,只需把 `Header` 依赖的 `std_msgs` 保留;
-- 子目录 `msg/referee_system/` 的接口,ROS2 会自动按目录扫描,无需改目录结构(注意 `.msg` 内注释用 `#` 兼容)。
+- `.msg/.srv` 字段基本复用,`Header` 改为 `std_msgs/Header` 限定名;
+- ⚠️ 消息文件必须平铺在 `msg/` 下,不能放子目录(实测 `msg/referee_system/` 会导致 `ros2 interface show` 失败);
+- `slaver_speed.msg` 按 ROS2 规范改名为 `SlaverSpeed.msg`。
 
 ### 阶段 2:仿真 → Gazebo Harmonic(可选但建议先打通,供规划调试)
 - `velodyne_simulator` → 用 `ros_gz` 的 `gpu_lidar`/`Lidar` 传感器替换经典 gazebo velodyne 插件;
