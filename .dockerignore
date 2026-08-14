@@ -1,0 +1,13 @@
+.git
+.gitignore
+**/.git
+*.pdf
+IMG/
+**/doc/
+**/build/
+**/install/
+**/log/
+**/devel/
+**/export.log
+__pycache__/
+*.pyc

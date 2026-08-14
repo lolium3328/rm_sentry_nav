@@ -1,0 +1,33 @@
+services:
+  sentry:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        ROS_DISTRO: jazzy
+    image: sentry:jazzy
+    container_name: sentry_nav_dev
+
+    # --- GPU 直通(需宿主已安装 NVIDIA Container Toolkit) ---
+    gpus: all
+
+    # --- GUI(rviz2 / gz-sim)通过 X11 透传 ---
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # 新 ROS2 工作区(双向挂载,实时生效)
+      - ../src:/root/sentry_ws/src:rw
+      # 原 ROS1 代码(只读参考)
+      - ../legacy:/root/legacy_ros1:ro
+
+    network_mode: host
+    ipc: host
+    privileged: true
+
+    stdin_open: true
+    tty: true
+    command: bash
