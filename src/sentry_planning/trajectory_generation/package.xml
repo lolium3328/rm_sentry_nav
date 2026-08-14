@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<!-- 阶段 3a | 新 ROS2 包，对照 legacy/sentry_planning/src/sentry_planning/trajectory_generation/package.xml -->
+<!-- 阶段 3b | ROS2 包，对照 legacy/sentry_planning/src/sentry_planning/trajectory_generation/package.xml -->
 <package format="3">
   <name>trajectory_generation</name>
   <version>0.0.0</version>
-  <description>ROS2 全局轨迹生成包（阶段 3a 骨架）</description>
+  <description>ROS2 全局轨迹生成包（阶段 3b 数据接入层）</description>
   <maintainer email="melody3328@qq.com">Anilam</maintainer>
   <license>BSD-3-Clause</license>
 
@@ -13,7 +13,16 @@
   <depend>rclcpp</depend>
   <depend>eigen</depend>
   <depend>builtin_interfaces</depend>
+  <depend>ament_index_cpp</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
   <depend>sentry_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+  <depend>opencv4</depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
 
   <exec_depend>rosidl_default_runtime</exec_depend>
 

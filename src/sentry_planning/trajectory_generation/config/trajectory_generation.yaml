@@ -1,0 +1,25 @@
+# 阶段 3b | 对照 legacy/.../trajectory_generation/launch/global_searcher_sim.launch
+trajectory_generation:
+  ros__parameters:
+    use_sim_time: true
+    topics:
+      odom: /odom
+      point_cloud: /points
+    frames:
+      odom: mbot/odom
+      base: mbot/base_footprint
+    trajectory_generator:
+      map_directory: map
+      occ_file_path: occ2024low.png
+      bev_file_path: bev2024low.png
+      distance_map_file_path: occtopo2024low.png
+      map_resolution: 0.1
+      map_x_size: 30.0
+      map_y_size: 18.0
+      map_z_size: 2.0
+      search_height_min: -0.3
+      search_height_max: 1.2
+      search_radius: 6.0
+      robot_radius: 0.35
+      robot_radius_dash: 0.35
+      obstacle_swell_flag: true
