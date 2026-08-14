@@ -23,6 +23,10 @@ services:
       - ../src:/root/sentry_ws/src:rw
       # 原 ROS1 代码(只读参考)
       - ../legacy:/root/legacy_ros1:ro
+      # colcon 构建产物持久化(跨 run 保留,否则每次 --rm 后 install 会丢)
+      - sentry_build:/root/sentry_ws/build
+      - sentry_install:/root/sentry_ws/install
+      - sentry_log:/root/sentry_ws/log
 
     network_mode: host
     ipc: host
@@ -31,3 +35,8 @@ services:
     stdin_open: true
     tty: true
     command: bash
+
+volumes:
+  sentry_build:
+  sentry_install:
+  sentry_log:
