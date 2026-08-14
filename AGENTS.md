@@ -43,11 +43,12 @@ src/
 5. **前端项目**:统一使用 TypeScript + Bun。
 
 6. **文档规范**:所有计划与实验结果保存为 markdown,放入 `docs/`(实验放 `docs/experiments/`)。
+7. **计划文档分层**:`docs/migration-plan.md` 是总计划与阶段索引,保持简洁稳定；阶段详细规划、实施拆分与验收标准必须单独保存为 `docs/phase-<n>-plan.md`，不得直接大段改写总计划。
 
 ## 迁移工作流
 
 1. **迁移可追溯**: 迁移到 `src/` 的每个文件顶部,注明原 ROS1 参考文件路径(`legacy/...`),便于审核对照。
-2. 按 `docs/migration-plan.md` 的阶段顺序迁移。
+2. 按 `docs/migration-plan.md` 的阶段顺序迁移，并参考对应的独立阶段规划文档。
 3. 改完一个包,在容器内 `colcon build --packages-select <pkg>` 验证。
 4. 验证结果记录到 `docs/experiments/`。
 5. 验证通过后 commit。
