@@ -139,11 +139,79 @@
             <xacro:cylinder_inertial_matrix  m="${base_mass}" r="${base_radius}" h="${base_length}" />
         </link>
 
+        <!--
+          HDL-32E 外形（沿用 legacy velodyne_description 的两个 visual link）。
+          gpu_lidar 只负责采样，不会自动显示雷达实体外壳。
+        -->
+        <joint name="velodyne_lidar_base_joint" type="fixed">
+            <origin xyz="0 0 0.08" rpy="0 0 0" />
+            <parent link="base_link" />
+            <child link="velodyne_lidar_base" />
+        </joint>
+        <link name="velodyne_lidar_base">
+            <visual>
+                <geometry>
+                    <mesh filename="file://$(find mbot_description)/meshes/HDL32E_base.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <joint name="velodyne_lidar_joint" type="fixed">
+            <origin xyz="0 0 0.09081" rpy="0 0 0" />
+            <parent link="velodyne_lidar_base" />
+            <child link="velodyne_lidar" />
+        </joint>
+        <link name="velodyne_lidar">
+            <visual>
+                <origin xyz="0 0 -0.09081" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find mbot_description)/meshes/HDL32E_scan.dae" />
+                </geometry>
+            </visual>
+        </link>
+
         <xacro:wheel prefix="left"  reflect="-1"/>
         <xacro:wheel prefix="right" reflect="1"/>
 
         <xacro:caster prefix="front" reflect="-1"/>
         <xacro:caster prefix="back"  reflect="1"/>
+
+        <!-- 雷达(gz-sim 原生 gpu_lidar, 对应原 ROS1 velodyne HDL-32E):
+             32 束、360°水平、垂直 +10.67°~-30.67°, 发布点云供避障使用 -->
+        <gazebo reference="base_link">
+            <sensor name="velodyne_lidar" type="gpu_lidar">
+                <!-- base_link 合并到 base_footprint 后位于 z=0.13；
+                     这里使用相对高度 0.08，使雷达绝对高度为 0.21 m。 -->
+                <pose>0 0 0.08 0 0 0</pose>
+                <gz_frame_id>velodyne_lidar</gz_frame_id>
+                <topic>lidar</topic>
+                <update_rate>10</update_rate>
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>1800</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-3.14159</min_angle>
+                            <max_angle>3.14159</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>32</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-0.5353</min_angle>
+                            <max_angle>0.1862</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>0.3</min>
+                        <max>100.0</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                </lidar>
+                <always_on>1</always_on>
+                <!-- 在 Gazebo GUI 中显示雷达扫描结果；不影响 /lidar/points 数据发布。 -->
+                <visualize>true</visualize>
+            </sensor>
+        </gazebo>
 
         <!-- 差速驱动插件(gz-sim 原生, 对应原 ROS1 的 gazebo_ros_diff_drive):
              订阅 /model/mbot/cmd_vel, 驱动左右轮, 发布 odometry -->

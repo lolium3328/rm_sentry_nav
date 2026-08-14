@@ -4,7 +4,7 @@ project(mbot_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY urdf
+  DIRECTORY urdf config meshes launch
   DESTINATION share/${PROJECT_NAME}
 )
 

@@ -1,0 +1,27 @@
+# Gazebo Harmonic -> ROS 2 sensor bridge for the mbot lidar.
+# The sensor publishes both representations from the same gpu_lidar:
+#   /lidar        : gz.msgs.LaserScan
+#   /lidar/points : gz.msgs.PointCloudPacked
+- ros_topic_name: /scan
+  gz_topic_name: /lidar
+  ros_type_name: sensor_msgs/msg/LaserScan
+  gz_type_name: gz.msgs.LaserScan
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /points
+  gz_topic_name: /lidar/points
+  ros_type_name: sensor_msgs/msg/PointCloud2
+  gz_type_name: gz.msgs.PointCloudPacked
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /tf
+  gz_topic_name: /model/mbot/tf
+  ros_type_name: tf2_msgs/msg/TFMessage
+  gz_type_name: gz.msgs.Pose_V
+  direction: GZ_TO_ROS
+
+- ros_topic_name: /odom
+  gz_topic_name: /model/mbot/odometry
+  ros_type_name: nav_msgs/msg/Odometry
+  gz_type_name: gz.msgs.Odometry
+  direction: GZ_TO_ROS

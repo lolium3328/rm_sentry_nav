@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
+<!-- ROS1 reference: legacy/sentry_planning/src/sentry_gazebo_2024/RMchangdi1230/world/rmuc_static.world -->
 <sdf version='1.7'>
   <world name='default'>
     <light name='sun' type='directional'>
@@ -33,6 +34,17 @@
       <background>0.7 0.7 0.7 1</background>
       <shadows>1</shadows>
     </scene>
+
+    <!-- 声明任一系统插件后,gz-sim 不再从默认 server.config 补齐其余系统。
+         Physics 负责仿真,UserCommands 负责 GUI 操作,SceneBroadcaster 将场景发送给 GUI。 -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+
+    <!-- gpu_lidar 需要 Sensors 系统和 ogre2 渲染引擎。 -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
 
     <model name='RMchangdi1230'>
       <static>1</static>
@@ -72,9 +84,19 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
+              <!-- 与 ROS1 场地使用同一份已验证的视觉网格。 -->
               <uri>../meshes/base_link.STL</uri>
             </mesh>
           </geometry>
+          <!--
+            STL 不携带 Gazebo 材质。显式设置中性灰，避免 gz-sim 使用
+            过亮的默认白色；颜色参考 legacy URDF 的场地灰色材质。
+          -->
+          <material>
+            <ambient>0.28 0.28 0.28 1</ambient>
+            <diffuse>0.52 0.52 0.52 1</diffuse>
+            <specular>0.12 0.12 0.12 1</specular>
+          </material>
         </visual>
         <self_collide>0</self_collide>
         <enable_wind>0</enable_wind>
@@ -82,5 +104,14 @@
       </link>
       <pose>0 0 0 0 -0 0</pose>
     </model>
+
+    <!-- 保留 ROS1 world 的场地总览视角,避免默认相机位于场地边缘或网格内部。 -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>6.87296 -6.14963 7.32734 0 0.475643 2.1962</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
   </world>
 </sdf>
