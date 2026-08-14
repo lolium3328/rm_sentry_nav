@@ -26,13 +26,17 @@ Gazebo Harmonic(gz-sim 8.11),并能在无头模式下干净启动。
 
 ## 踩坑记录
 
-1. **51MB STL 不能做碰撞网格**:
-   - dartsim 报 `Mesh construction from an SDF has not been implemented yet` + `collision couldn't be created`;
-   - bullet-featherstone 加载该 STL 直接卡死(12s 无输出);
-   - 结论:碰撞用简化几何,视觉保留完整 STL(激光雷达 gpu_lidar 走渲染、
-     看的是视觉几何,不受影响)。
+1. **误导性 debug 日志(重要教训)**:
+   dartsim 打印 `Mesh construction from an SDF has not been implemented yet for dartsim`,
+   易被误读为"dartsim 不支持 STL 碰撞"。**实际上碰撞正常创建**——
+   该日志只是说直接构造路径没实现,后面通过 `AttachMeshShapeFeature` 照常完成。
+   官方 PR #452 已将其从 error 降级为 debug。
+   验证方法:向场地上方丢一个球(半径 0.5,z=5),12 秒后球停在 z=0.59
+   (球心 0.59 = 球底 0.09,落在场地表面),证明碰撞生效、未穿透。
 2. **gz sim 输出缓冲**:`timeout ... > file` 重定向时若进程被 kill,缓冲日志会丢失;
    改用 `| head` / `| grep` 管道能正常刷出。验证命令注意用管道。
+3. **物理引擎选择**:gz-sim 忽略 SDF 的 `<physics type>` 属性(官方示例仍写 `type="ode"`),
+   实际引擎由命令行 `--physics-engine` 决定,默认 dartsim。
 
 ## 验证结果
 
@@ -40,5 +44,5 @@ Gazebo Harmonic(gz-sim 8.11),并能在无头模式下干净启动。
 colcon build --symlink-install --packages-select rmchangdi1230   # ✅
 gz sim -s -r <install>/share/rmchangdi1230/worlds/rmuc_static.world
 # => World [default] initialized with [1ms] physics profile.  ✅
-# => 无 collision couldn't be created 错误 ✅
+# => 落球测试: 球从 z=5 落到 z=0.59, 碰撞正常, 未穿透 ✅
 ```
