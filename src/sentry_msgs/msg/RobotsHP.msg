@@ -1,3 +1,5 @@
+# [迁移自 ROS1] legacy/sentry_planning/src/rm2023_sentry_msgs/msg/referee_system/RobotsHP.msg
+# 阶段1 | 改动: Header → std_msgs/Header, 字段不变
 # 机器人血量数据 0x0003 1Hz
 std_msgs/Header header
 # RED

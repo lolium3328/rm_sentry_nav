@@ -1,3 +1,5 @@
+# [迁移自 ROS1] legacy/sentry_planning/src/rm2023_sentry_msgs/CMakeLists.txt
+# 阶段1 | 改动: catkin/add_message_files → ament_cmake/rosidl_generate_interfaces
 cmake_minimum_required(VERSION 3.8)
 project(sentry_msgs)
 

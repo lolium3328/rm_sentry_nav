@@ -1,3 +1,5 @@
+# [迁移自 ROS1] legacy/sentry_planning/src/rm2023_sentry_msgs/srv/GoTarget.srv
+# 阶段1 | 改动: 无(ROS1/ROS2 语法兼容)
 float32 target_x
 float32 target_y
 int64 target_mode

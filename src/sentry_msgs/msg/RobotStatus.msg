@@ -1,3 +1,5 @@
+# [迁移自 ROS1] legacy/sentry_planning/src/rm2023_sentry_msgs/msg/referee_system/RobotStatus.msg
+# 阶段1 | 改动: Header → std_msgs/Header, 字段不变
 # 比赛机器人状态 0x0201 10Hz
 std_msgs/Header header
 

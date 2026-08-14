@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<!--
+  [迁移自 ROS1] legacy/sentry_planning/src/rm2023_sentry_msgs/package.xml
+  阶段1 | 改动: catkin 格式 → ament_cmake 格式
+-->
 <package format="3">
   <name>sentry_msgs</name>
   <version>0.0.0</version>

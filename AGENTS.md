@@ -33,10 +33,11 @@
 
 ## 迁移工作流
 
-1. 按 `docs/migration-plan.md` 的阶段顺序迁移。
-2. 改完一个包,在容器内 `colcon build --packages-select <pkg>` 验证。
-3. 验证结果记录到 `docs/experiments/`。
-4. 验证通过后 commit。
+1. **迁移可追溯**: 迁移到 `src/` 的每个文件顶部,注明原 ROS1 参考文件路径(`legacy/...`),便于审核对照。
+2. 按 `docs/migration-plan.md` 的阶段顺序迁移。
+3. 改完一个包,在容器内 `colcon build --packages-select <pkg>` 验证。
+4. 验证结果记录到 `docs/experiments/`。
+5. 验证通过后 commit。
 
 ## 环境命令
 
