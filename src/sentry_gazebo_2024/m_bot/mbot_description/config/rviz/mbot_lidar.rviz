@@ -1,0 +1,94 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Alpha: 0.35
+      Cell Size: 1
+      Color: 160; 160; 160
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Plane: XY
+      Plane Cell Count: 30
+      Reference Frame: base_footprint
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Alpha: 1
+      Description Source: Topic
+      Description Topic: /robot_description
+      Enabled: true
+      Visual Enabled: true
+      Collision Enabled: false
+      Update Interval: 0
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Frame Timeout: 15
+      Marker Scale: 0.35
+      Show Axes: true
+      Show Names: false
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Lidar PointCloud2
+      Enabled: true
+      Topic: /points
+      Queue Size: 10
+      Style: Flat Squares
+      Size (Pixels): 3
+      Alpha: 1
+      Decay Time: 0
+      Use Fixed Frame: true
+      Color: 255; 0; 0
+      Color Transformer: FlatColor
+      Selectable: true
+    - Class: rviz_default_plugins/LaserScan
+      Name: Lidar LaserScan
+      Enabled: false
+      Topic: /scan
+      Queue Size: 10
+      Style: Points
+      Size (Pixels): 3
+      Alpha: 1
+      Color: 255; 0; 0
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/Odometry
+      Name: Odometry
+      Enabled: false
+      Topic: /odom
+      Keep: 100
+      Shape: Arrow
+      Shaft Length: 0.5
+      Shaft Radius: 0.05
+      Head Length: 0.2
+      Head Radius: 0.1
+      Color: 255; 25; 0
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_footprint
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 12
+      Focal Point: 2; 2; 0
+      Pitch: 0.8
+      Yaw: 0.8
+      Target Frame: base_footprint
+Window Geometry:
+  Height: 900
+  Width: 1400
+  X: 20
+  Y: 20

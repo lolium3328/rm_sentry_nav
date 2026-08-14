@@ -21,25 +21,24 @@
 | 阶段 2a | 场地世界(RMchangdi1230)启动 | ✅ 完成,已验证 |
 | 阶段 2b | mbot 模型加载(6 link + 5 joint) | ✅ 完成,已验证 |
 | 阶段 2c | mbot 差速驱动(DiffDrive 插件 + cmd_vel) | ✅ 完成,已验证(发 1m/s 前进 5s,车移动约 4m) |
-| 阶段 2d | 雷达(gpu_lidar) | ⚠️ **部分完成,有审查点待修** |
+| 阶段 2d | 雷达(gpu_lidar) | ✅ 完成（含 Gazebo/ROS2/RViz2 验收） |
 
 ## 阶段 2d 当前状态(雷达)
 
 **已完成**:
 - gpu_lidar 传感器已加到 mbot 模型(HDL-32E 规格:32 束、360°、垂直 +10.67°~-30.67°)
 - 世界文件已显式声明 4 个系统插件(Physics / UserCommands / SceneBroadcaster / Sensors + ogre2)
+- Gazebo `/lidar`、`/lidar/points` 和 ROS2 `/scan`、`/points` 已闭环，频率约 10 Hz
+- `base_footprint → velodyne_lidar` TF、`/odom` 和机器人运动联动已通过验收
+- RViz2 配置已安装：`config/rviz/mbot_lidar.rviz`，默认显示红色 `/points`
 
-**审查点(待修,按优先级)**:
+验收记录：`docs/experiments/004-gpu-lidar-acceptance.md`；一键启动：
+`docker/start_lidar_demo.sh`。
 
-1. **雷达姿态**:`<pose> 0 0 0.21` 原本放在 `<sensor>` 外部(已改为放内部,但**尚未验证生效**);
-   - 位置:`src/sentry_gazebo_2024/m_bot/mbot_description/urdf/mbot_base.xacro`
-2. **雷达 ROS2 数据链未闭环**:还需验证
-   - `/model/mbot/lidar` 话题是否产生数据;
-   - 消息类型(gz.msgs.LaserScan / gz.msgs.PointCloudPacked);
-   - frame ID;
-   - `ros_gz_bridge` 到 ROS2 点云话题(sensor_msgs/PointCloud2)的桥接。
-3. **场地材质(低优先级)**:`rmuc_static.world` 场地视觉无显式材质,gz-sim 用亮白默认,
-   后续补 diffuse/ambient 让坡道/障碍物轮廓更清楚。
+**已知非阻塞提示**:
+
+1. `gz_frame_id` 在 SDF schema 中产生兼容性 warning，但运行时 frame 正确为 `velodyne_lidar`。
+2. EGL/Dri2 warning 不影响本次点云发布；如需优化渲染性能再单独处理。
 
 ## 已验证的关键事实(避免重复踩坑)
 
@@ -85,7 +84,5 @@ cd /root/sentry_ws && colcon build --symlink-install
 
 ## 下一步建议
 
-1. 用 GUI 模式验证雷达:`gz sim -r` + `ros_gz_sim create` 生成 mbot,检查 `/model/mbot/lidar` 话题;
-2. 配 `ros_gz_bridge` 桥接点云到 ROS2;
-3. 提交阶段 2d;
-4. 进入阶段 3(`trajectory_generation` 全局规划)。
+1. 使用 `docker/start_lidar_demo.sh` 重跑阶段 2d 验收（如需复核）;
+2. 进入阶段 3(`trajectory_generation` 全局规划)。

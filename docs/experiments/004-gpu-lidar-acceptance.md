@@ -41,8 +41,9 @@ cd /home/anilam/rm_sentry_nav
 ./docker/start_lidar_demo.sh
 ```
 
-脚本会启动 Gazebo GUI、生成 mbot、启动 bridge 和 `robot_state_publisher`。保持脚本运行，
-另开一个同样通过 compose 进入的容器验收 `/scan`、`/points` 与 RViz2。
+脚本会启动 Gazebo GUI、生成 mbot、启动 bridge、`robot_state_publisher` 和预配置的 RViz2。
+RViz2 自动加载 `config/rviz/mbot_lidar.rviz`，Fixed Frame 为 `base_footprint`，
+默认显示红色 `/points` 点云；保持脚本运行即可直接观察。
 
 下方是用于逐项排查的手动启动方式。
 
@@ -202,19 +203,19 @@ rviz2
 | TF | ✅ | `base_footprint → velodyne_lidar`，平移 z≈0.301 m，无 TF lookup 错误 |
 | 里程计 | ✅ | `/odom` 类型正确，`mbot/odom → mbot/base_footprint` |
 | 运动联动 | ✅ | 发布 0.5 m/s、2 s 后 odom x 从约 0 增至约 0.52 m，雷达仍约 10 Hz |
-| RViz 红色点云画面 | ⚠️ | 数据已证明存在，但“红色”不是消息属性；需在 RViz2 添加 `/points` 并手动设置 Color Transformer/颜色后观察 |
+| RViz 红色点云画面 | ✅ | 一键脚本自动加载 `mbot_lidar.rviz`，Fixed Frame=`base_footprint`，PointCloud2=`/points`，颜色为红色 |
 
 ## 为什么与 legacy 的红色效果不同
 
 `legacy/.../doc/lidar_scan.png` 是 Gazebo Classic/RViz 组合下的截图，红色由
 可视化器的颜色设置产生；`rmuc_lidar.jpg` 是 PCD viewer 的青色伪彩色显示。
 两者都不是 `gpu_lidar` 消息携带的固定颜色。当前 ROS 2 点云已经包含
-`intensity` 字段，默认 RViz2 不会自动继承 legacy 的颜色配置，因此不会自然
-出现同样的红色。
+`intensity` 字段；本项目 RViz2 配置显式使用 FlatColor 红色，以复现 legacy 的
+红色点云效果。
 
 当前日志只有两个非致命提示：`gz_frame_id` 不是当前 SDF schema 的正式
 `sensor` 子元素（但运行时 frame 正确），以及 EGL/Dri2 警告（不影响本次数据
-发布）。因此目前问题定位为“可视化配置尚未复刻”，不是雷达不工作或桥接失败。
+发布）。因此目前问题已定位并处理为 RViz2 可视化配置，而不是雷达不工作或桥接失败。
 
 ## 常见问题
 

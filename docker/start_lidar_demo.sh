@@ -35,9 +35,11 @@ gz sim -r "$world_file" > /tmp/gz-sim.log 2>&1 &
 gz_pid=$!
 bridge_pid=""
 rsp_pid=""
+rviz_pid=""
 
 cleanup() {
   [[ -n "$rsp_pid" ]] && kill "$rsp_pid" 2>/dev/null || true
+  [[ -n "$rviz_pid" ]] && kill "$rviz_pid" 2>/dev/null || true
   [[ -n "$bridge_pid" ]] && kill "$bridge_pid" 2>/dev/null || true
   kill "$gz_pid" 2>/dev/null || true
 }
@@ -65,12 +67,17 @@ rsp_pid=$!
 sleep 2
 ros2 run ros_gz_sim create -world default -file /tmp/mbot.sdf -name mbot -x 2 -y 2 -z 0.3
 
+rviz2 -d install/mbot_description/share/mbot_description/config/rviz/mbot_lidar.rviz \
+  > /tmp/rviz2.log 2>&1 &
+rviz_pid=$!
+
 echo
 echo "启动完成："
 echo "  Gazebo:  场地、mbot 与雷达可视化"
 echo "  ROS2:    /scan  /points  /odom  /tf"
-echo "  验收:    另开终端运行 ros2 topic hz /scan 和 rviz2（Fixed Frame: base_footprint，Topic: /points）"
-echo "  日志:    /tmp/gz-sim.log  /tmp/lidar-bridge.log  /tmp/robot-state-publisher.log"
+echo "  RViz2:   已加载 mbot_lidar.rviz（Fixed Frame: base_footprint，显示 /points）"
+echo "  验收:    另开终端运行 ros2 topic hz /scan 和 ros2 topic hz /points"
+echo "  日志:    /tmp/gz-sim.log  /tmp/lidar-bridge.log  /tmp/robot-state-publisher.log  /tmp/rviz2.log"
 
 wait "$gz_pid"
 '
