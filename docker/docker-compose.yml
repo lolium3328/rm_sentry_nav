@@ -17,6 +17,9 @@ services:
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
+      # 所有 compose run 容器必须使用同一 Gazebo Transport 分区，
+      # 否则 create 请求可能发往另一个 default world。
+      - GZ_PARTITION=sentry_nav
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       # 新 ROS2 工作区(双向挂载,实时生效)

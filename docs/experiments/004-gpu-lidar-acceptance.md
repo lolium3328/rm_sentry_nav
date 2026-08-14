@@ -46,6 +46,7 @@ colcon build --symlink-install --packages-select rmchangdi1230 mbot_description
 ```
 
 退出容器后，按下列五个终端分别执行。所有容器使用 `network_mode: host`，不需要额外设置 ROS Domain。
+Compose 已固定 `GZ_PARTITION=sentry_nav`，五个容器必须都通过同一份 compose 文件启动。
 
 ## 终端 1：启动带 GUI 的 Gazebo 世界
 
