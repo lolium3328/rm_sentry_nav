@@ -13,8 +13,8 @@ Gazebo Harmonic(gz-sim 8.11),并能在无头模式下干净启动。
 
 | 文件 | 改动 |
 |------|------|
-| `src/rmchangdi1230/package.xml` | 新建 ament_cmake 包 |
-| `src/rmchangdi1230/CMakeLists.txt` | 安装 worlds/ 与 meshes/ 到 share/ |
+| `src/sentry_gazebo_2024/rmchangdi1230/package.xml` | 新建 ament_cmake 包 |
+| `src/sentry_gazebo_2024/rmchangdi1230/CMakeLists.txt` | 安装 worlds/ 与 meshes/ 到 share/ |
 | `worlds/rmuc_static.world` | 迁移并清理(见下) |
 | `meshes/base_link.STL` | 原样复制(51MB,仅用于视觉) |
 

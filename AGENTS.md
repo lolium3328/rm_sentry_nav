@@ -14,14 +14,27 @@
 ├── docs/          # 文档:迁移计划、实验结果(markdown)
 ├── docker/        # Docker 环境:Dockerfile、docker-compose、entrypoint
 ├── legacy/        # 原 ROS1 代码(只读参考,独立 git 仓库)
-└── src/           # 新 ROS2 工作区(colcon),按功能包分文件夹
+└── src/           # 新 ROS2 工作区(colcon)
 ```
+
+**src/ 内部按功能分组,分组层级与 legacy/ 保持一致**,便于逐文件对照:
+
+```
+src/
+├── sentry_gazebo_2024/   # 仿真相关(对应 legacy sentry_gazebo_2024)
+│   ├── rmchangdi1230/    # 场地(对应 legacy RMchangdi1230)
+│   └── m_bot/            # mbot 系列(对应 legacy m_bot)
+├── sentry_planning/      # 规划相关(对应 legacy sentry_planning)
+└── sentry_msgs/          # 消息(对应 legacy rm2023_sentry_msgs)
+```
+
+> 包目录名按 ROS2 规范小写,但分组目录名与 legacy 保持一致。
 
 ## 开发规则
 
 1. **提交规范**:每个逻辑改动单独 commit,message 使用约定式提交(`feat:` / `fix:` / `docs:` / `chore:` / `refactor:`)。
 
-2. **工作区规范**:根目录保持干净,按功能分文件夹管理代码层级,不散落文件。
+2. **工作区规范**:根目录保持干净,按功能分文件夹管理代码层级,不散落文件。**迁移到 src/ 的目录层级必须与 legacy/ 原项目保持一致**(如 sentry_gazebo_2024/、sentry_planning/ 分组),便于逐文件对照审核。
 
 3. **代码规范**:单文件不超过 500 行,超过必须拆分(头文件/实现分离、按职责拆分)。
 

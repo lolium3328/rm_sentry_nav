@@ -13,8 +13,8 @@
 
 | 文件 | 改动 |
 |------|------|
-| `src/mbot_description/package.xml` | 新建 ament_cmake 包 |
-| `src/mbot_description/CMakeLists.txt` | 安装 urdf/ |
+| `src/sentry_gazebo_2024/m_bot/mbot_description/package.xml` | 新建 ament_cmake 包 |
+| `src/sentry_gazebo_2024/m_bot/mbot_description/CMakeLists.txt` | 安装 urdf/ |
 | `urdf/mbot.xacro` | 顶层入口,实例化 mbot_base 宏 |
 | `urdf/mbot_base.xacro` | 合并显示版 + 仿真版结构 |
 
