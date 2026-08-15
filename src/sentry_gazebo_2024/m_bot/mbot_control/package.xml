@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<package format="3"><name>mbot_control</name><version>1.0.0</version>
+<description>ROS2 migration of the legacy mbot wheel controller.</description>
+<maintainer email="melody3328@qq.com">Anilam</maintainer><license>BSD-3-Clause</license>
+<buildtool_depend>ament_cmake</buildtool_depend><depend>rclcpp</depend><depend>std_msgs</depend>
+<exec_depend>controller_manager</exec_depend><exec_depend>joint_state_broadcaster</exec_depend>
+<export><build_type>ament_cmake</build_type></export></package>
