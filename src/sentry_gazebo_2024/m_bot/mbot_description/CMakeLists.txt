@@ -3,9 +3,7 @@ project(mbot_description)
 
 find_package(ament_cmake REQUIRED)
 
-install(
-  DIRECTORY urdf config meshes launch
-  DESTINATION share/${PROJECT_NAME}
-)
+install(DIRECTORY urdf config meshes launch sensors
+  DESTINATION share/${PROJECT_NAME})
 
 ament_package()

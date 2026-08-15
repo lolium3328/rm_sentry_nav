@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- ROS2 migration of legacy/.../urdf/xacro/gazebo/mbot_gazebo.xacro. -->
+<robot name="mbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find mbot_description)/urdf/xacro/gazebo/mbot_base_gazebo.xacro" />
+
+    <xacro:mbot_base_gazebo color_car="Yellow" />
+
+</robot>

@@ -11,7 +11,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     package_share = Path(get_package_share_directory("mbot_description"))
-    xacro_file = package_share / "urdf" / "mbot.xacro"
+    xacro_file = package_share / "urdf" / "xacro" / "mbot.xacro"
 
     robot_description = Command(["xacro ", str(xacro_file)])
     return LaunchDescription(
