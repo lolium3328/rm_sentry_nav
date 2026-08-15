@@ -5,57 +5,55 @@ mbot/controller_manager:
   ros__parameters:
     update_rate: 1000
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
-    left_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
-    right_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
+    left_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
+    right_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
 mbot/left_wheel_joint_controller:
   ros__parameters:
     joints: [left_wheel_joint]
-    interface_name: velocity
 mbot/right_wheel_joint_controller:
   ros__parameters:
     joints: [right_wheel_joint]
-    interface_name: velocity
 
 mbot2/controller_manager:
   ros__parameters:
     update_rate: 1000
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
-    left_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
-    right_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
+    left_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
+    right_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
 mbot2/left_wheel_joint_controller:
-  ros__parameters: {joints: [left_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [left_wheel_joint]}
 mbot2/right_wheel_joint_controller:
-  ros__parameters: {joints: [right_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [right_wheel_joint]}
 
 mbot3/controller_manager:
   ros__parameters:
     update_rate: 1000
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
-    left_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
-    right_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
+    left_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
+    right_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
 mbot3/left_wheel_joint_controller:
-  ros__parameters: {joints: [left_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [left_wheel_joint]}
 mbot3/right_wheel_joint_controller:
-  ros__parameters: {joints: [right_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [right_wheel_joint]}
 
 mbot4/controller_manager:
   ros__parameters:
     update_rate: 1000
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
-    left_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
-    right_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
+    left_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
+    right_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
 mbot4/left_wheel_joint_controller:
-  ros__parameters: {joints: [left_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [left_wheel_joint]}
 mbot4/right_wheel_joint_controller:
-  ros__parameters: {joints: [right_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [right_wheel_joint]}
 
 mbot5/controller_manager:
   ros__parameters:
     update_rate: 1000
     joint_state_broadcaster.type: joint_state_broadcaster/JointStateBroadcaster
-    left_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
-    right_wheel_joint_controller.type: forward_command_controller/ForwardCommandController
+    left_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
+    right_wheel_joint_controller.type: velocity_controllers/JointGroupVelocityController
 mbot5/left_wheel_joint_controller:
-  ros__parameters: {joints: [left_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [left_wheel_joint]}
 mbot5/right_wheel_joint_controller:
-  ros__parameters: {joints: [right_wheel_joint], interface_name: velocity}
+  ros__parameters: {joints: [right_wheel_joint]}

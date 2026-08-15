@@ -12,16 +12,18 @@
 目标环境:Ubuntu 24.04 + ROS2 Jazzy + Gazebo Harmonic(gz-sim 8.11)。
 环境由 Docker 管理,镜像已构建:`sentry:jazzy`。
 
-## 已完成进度
+## 当前进度（阶段二保真修补）
 
 | 阶段 | 内容 | 状态 |
 |------|------|------|
 | 阶段 0 | Docker 环境(ROS2 Jazzy + OCS2 + Gazebo Harmonic) | ✅ 完成 |
 | 阶段 1 | `sentry_msgs` 消息包迁移 | ✅ 完成,已验证 |
-| 阶段 2a | 场地世界(RMchangdi1230)启动 | ✅ 完成,已验证 |
-| 阶段 2b | mbot 模型加载(6 link + 5 joint) | ✅ 完成,已验证 |
-| 阶段 2c | mbot 差速驱动(DiffDrive 插件 + cmd_vel) | ✅ 完成,已验证(发 1m/s 前进 5s,车移动约 4m) |
-| 阶段 2d | 雷达(gpu_lidar) | ✅ 完成（含 Gazebo/ROS2/RViz2 验收） |
+| 阶段 2R-1 | 恢复 RMchangdi1230 legacy 目录与资源 | ✅ 已提交，待容器复验 |
+| 阶段 2R-2 | 恢复 mbot description 文件与 xacro 边界 | ✅ 已提交，待容器复验 |
+| 阶段 2R-3 | mbot_control ROS2 控制器迁移 | ✅ 已提交，待容器复验 |
+| 阶段 2R-4 | mbot_gazebo Harmonic 编排与五车入口 | ✅ 已提交，待容器复验 |
+| 阶段 2R-5 | mbot_teleop rclpy 迁移 | ✅ 已提交，待容器复验 |
+| 阶段 2R-6 | 统一回归验收 | ⏳ Docker 已恢复；build、单车/五车 smoke 通过，完整传感器/控制/RViz 仍待验收 |
 
 ## 阶段 2d 当前状态(雷达)
 
@@ -32,7 +34,8 @@
 - `base_footprint → velodyne_lidar` TF、`/odom` 和机器人运动联动已通过验收
 - RViz2 配置已安装：`config/rviz/mbot_lidar.rviz`，默认显示红色 `/points`
 
-验收记录：`docs/experiments/004-gpu-lidar-acceptance.md`；一键启动：
+历史验收记录：`docs/experiments/004-gpu-lidar-acceptance.md`；本次修补记录：
+`docs/experiments/008-phase-2-fidelity-remediation.md`。正式入口见：
 `docker/start_lidar_demo.sh`。
 
 **已知非阻塞提示**:
@@ -75,12 +78,13 @@ docker compose -f docker/docker-compose.yml run --rm sentry
 cd /root/sentry_ws && colcon build --symlink-install
 ```
 
-## git 状态
+## 本次修补提交
 
-- 已提交 14 个 commit(见 `git log`)
-- **未提交改动**:
-  - `src/.../mbot_base.xacro`(雷达 pose 移入 sensor)
-  - `src/.../rmuc_static.world`(系统插件、视觉改回 STL、恢复 GUI 相机)
+- `123a947` 场地结构
+- `54f6e88` mbot description 边界
+- `4615dbf` mbot_control
+- `fb5645f` mbot_gazebo
+- `6198bd8` mbot_teleop
 
 ## 下一步建议
 

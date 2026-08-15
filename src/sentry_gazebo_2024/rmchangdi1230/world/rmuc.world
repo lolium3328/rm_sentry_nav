@@ -1,5 +1,8 @@
 <sdf version='1.7'>
   <world name='default'>
+    <plugin filename='gz-sim-physics-system' name='gz::sim::systems::Physics'/>
+    <plugin filename='gz-sim-user-commands-system' name='gz::sim::systems::UserCommands'/>
+    <plugin filename='gz-sim-scene-broadcaster-system' name='gz::sim::systems::SceneBroadcaster'/>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose>0 0 10 0 -0 0</pose>
@@ -68,7 +71,7 @@
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <physics type='ode'>
+    <physics type='dart'>
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
@@ -105,7 +108,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>../../RMchangdi1230/meshes/base_link.STL</uri>
+              <uri>../meshes/base_link.STL</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -127,7 +130,7 @@
           <geometry>
             <mesh>
               <scale>1 1 1</scale>
-              <uri>../../RMchangdi1230/meshes/base_link.STL</uri>
+              <uri>../meshes/base_link.STL</uri>
             </mesh>
           </geometry>
         </visual>

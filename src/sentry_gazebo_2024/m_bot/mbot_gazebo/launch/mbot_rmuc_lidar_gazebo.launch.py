@@ -1,8 +1,6 @@
+import runpy
 from pathlib import Path
-from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+_helper = runpy.run_path(str(Path(__file__).with_name('_multi_robot.py')))
+generate_single = _helper['generate_single']
 def generate_launch_description():
-    p = Path(get_package_share_directory('mbot_gazebo')) / 'launch' / 'mbot_empty_world.launch.py'
-    return LaunchDescription([IncludeLaunchDescription(PythonLaunchDescriptionSource(str(p)))])
+    return generate_single()

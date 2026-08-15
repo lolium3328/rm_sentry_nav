@@ -1,5 +1,9 @@
 <sdf version='1.7'>
   <world name='default'>
+    <plugin filename='gz-sim-physics-system' name='gz::sim::systems::Physics'/>
+    <plugin filename='gz-sim-user-commands-system' name='gz::sim::systems::UserCommands'/>
+    <plugin filename='gz-sim-scene-broadcaster-system' name='gz::sim::systems::SceneBroadcaster'/>
+    <plugin filename='gz-sim-sensors-system' name='gz::sim::systems::Sensors'/>
     <light name='sun' type='directional'>
       <cast_shadows>1</cast_shadows>
       <pose>0 0 10 0 -0 0</pose>
@@ -21,7 +25,7 @@
     <gravity>0 0 -9.8</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
     <atmosphere type='adiabatic'/>
-    <physics type='ode'>
+    <physics type='dart'>
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
       <real_time_update_rate>1000</real_time_update_rate>
@@ -312,24 +316,15 @@
           <always_on>1</always_on>
           <update_rate>100</update_rate>
           <visualize>1</visualize>
-          <topic>__default_topic__</topic>
-          <plugin name='imu_plugin' filename='gz-sim-imu-system'>
-            <topicName>imu/data</topicName>
-            <bodyName>imu_base</bodyName>
-            <updateRateHZ>100.0</updateRateHZ>
-            <gaussianNoise>0.01</gaussianNoise>
-            <xyzOffset>0 0 0</xyzOffset>
-            <rpyOffset>0 0 0</rpyOffset>
-            <frameName>imu_base</frameName>
-            <robotNamespace>/</robotNamespace>
-          </plugin>
+          <topic>imu/data</topic>
           <pose>0 0 0.37 0 -0 0</pose>
           <imu/>
         </sensor>
-        <sensor name='velodyne-HDL32E' type='ray'>
+        <sensor name='velodyne-HDL32E' type='gpu_lidar'>
           <visualize>0</visualize>
+          <topic>lidar</topic>
           <update_rate>10</update_rate>
-          <ray>
+          <lidar>
             <scan>
               <horizontal>
                 <samples>2187</samples>
@@ -354,16 +349,7 @@
               <mean>0</mean>
               <stddev>0</stddev>
             </noise>
-          </ray>
-          <plugin name='gpu_lidar_bridge' filename='gz-sim-sensors-system'>
-            <topicName>/velodyne_points</topicName>
-            <frameName>velodyne</frameName>
-            <organize_cloud>0</organize_cloud>
-            <min_range>0.9</min_range>
-            <max_range>130.0</max_range>
-            <gaussianNoise>0.008</gaussianNoise>
-            <robotNamespace>/</robotNamespace>
-          </plugin>
+          </lidar>
           <pose>0 0 0.29081 0 -0 0</pose>
         </sensor>
         <self_collide>0</self_collide>
@@ -650,7 +636,7 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
-      <plugin name='differential_drive_controller' filename='gz-sim-diff-drive-system'>
+      <plugin name='gz::sim::systems::DiffDrive' filename='gz-sim-diff-drive-system'>
         <rosDebugLevel>Debug</rosDebugLevel>
         <publishWheelTF>1</publishWheelTF>
         <robotNamespace>/</robotNamespace>
@@ -672,9 +658,6 @@
         <robotBaseFrame>base_footprint</robotBaseFrame>
       </plugin>
       <static>0</static>
-      <plugin name='gz_ros2_control' filename='gz_ros2_control-system'>
-        <robotNamespace>/mbot</robotNamespace>
-      </plugin>
       <pose>2.5 5 0.01 0 -0 0</pose>
     </model>
   </world>

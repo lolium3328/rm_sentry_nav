@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <!-- ROS2 migration of legacy/.../urdf/xacro/gazebo/mbot_gazebo.xacro. -->
 <robot name="mbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="use_ros2_control" default="false"/>
 
     <xacro:include filename="$(find mbot_description)/urdf/xacro/gazebo/mbot_base_gazebo.xacro" />
 
-    <xacro:mbot_base_gazebo color_car="Yellow" />
+    <xacro:mbot_base_gazebo color_car="Yellow" use_ros2_control="$(arg use_ros2_control)" />
 
 </robot>

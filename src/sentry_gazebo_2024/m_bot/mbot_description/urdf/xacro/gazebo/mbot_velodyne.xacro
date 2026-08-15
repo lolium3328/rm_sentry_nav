@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!-- ROS2/Harmonic blue lidar model; legacy geometry and offsets retained. -->
 <robot name="mbot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="use_ros2_control" default="false"/>
 
     <xacro:include filename="$(find mbot_description)/urdf/xacro/gazebo/mbot_base_gazebo.xacro" />
 
@@ -8,7 +9,7 @@
     <xacro:property name="lidar_offset_y" value="0" />
     <xacro:property name="lidar_offset_z" value="0.080" />
 
-    <xacro:mbot_base_gazebo color_car="Blue"/>
+    <xacro:mbot_base_gazebo color_car="Blue" use_ros2_control="$(arg use_ros2_control)"/>
 
     <!-- lidar VLP-16 -->
     <!-- <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro" />

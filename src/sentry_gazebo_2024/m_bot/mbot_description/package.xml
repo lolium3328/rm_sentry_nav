@@ -58,6 +58,7 @@
   <exec_depend>ros_gz_bridge</exec_depend>
   <exec_depend>ros_gz_sim</exec_depend>
   <exec_depend>gz_ros2_control</exec_depend>
+  <exec_depend>mbot_control</exec_depend>
   <build_depend>urdf</build_depend>
   <build_depend>xacro</build_depend>
   <build_export_depend>urdf</build_export_depend>
