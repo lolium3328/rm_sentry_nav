@@ -17,6 +17,9 @@ trajectory_generation:
       map_x_size: 30.0
       map_y_size: 18.0
       map_z_size: 2.0
+      # Gazebo demo spawns mbot at (2, 2), while /odom starts at the spawn pose.
+      map_offset_x: 2.0
+      map_offset_y: 2.0
       search_height_min: -0.3
       search_height_max: 1.2
       search_radius: 6.0
