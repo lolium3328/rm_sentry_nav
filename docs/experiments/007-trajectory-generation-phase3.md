@@ -1,8 +1,13 @@
 # 实验 007：`trajectory_generation` 阶段三统一验收
 
+> **后续保真审查结论（2026-08-15）：** 本实验只证明当时的简化实现能够编译并跑通
+> Gazebo 数据链路，不能证明 legacy 规划逻辑已迁移。阶段三保真验收不通过，状态改为
+> 待按原文件名和原逻辑重新迁移。详见 [`../legacy-fidelity-audit.md`](../legacy-fidelity-audit.md)。
+
 - 日期：2026-08-15
 - 阶段：阶段三（3a–3d）
-- 结果：✅ 通过
+- 原运行链路结果：✅ 通过
+- legacy 保真迁移结果：❌ 未通过
 
 ## 迁移内容
 
@@ -66,5 +71,5 @@ trajectory_generator:
 
 ## 阶段三结论
 
-阶段三 ROS2 规划数据链路、规划触发、路径生成、轨迹输出和 Gazebo Harmonic 端到端
-回归通过。后续阶段四进入 `tracking_node` 与 OCS2 MPC 迁移。
+当时实现的 ROS2 规划数据链路、规划触发、路径生成、轨迹输出和 Gazebo Harmonic
+端到端回归通过，但该实现未保留 legacy 的完整算法和文件结构，因此不得据此进入阶段四。

@@ -5,8 +5,10 @@
 ## 1. 目标与边界
 
 将 `legacy/sentry_planning/src/sentry_planning/trajectory_generation` 迁移为
-`src/sentry_planning/trajectory_generation` 下的 ROS2 `ament_cmake` 包，保留 A*、
-Topo 搜索、路径平滑、重规划 FSM 和 RViz Marker 可视化能力。
+`src/sentry_planning/trajectory_generation` 下的 ROS2 `ament_cmake` 包。迁移采用逐文件
+保真方式：功能实现保留 legacy 原文件名、类、算法、状态机和数据流，只替换 ROS1/ROS2
+不兼容的构建与通信 API。A*、Topo 搜索、路径平滑、重规划 FSM、地图更新和 RViz Marker
+可视化均按原实现迁移，不使用简化或替代实现。
 
 阶段三不迁移 OCS2 MPC、航点生成器或 RViz 自定义插件；优先使用阶段二已验收的
 `/odom`、`/points` 和 TF 数据流。`gz_ros2_control` 运动控制闭环另行处理。
@@ -28,7 +30,8 @@ Topo 搜索、路径平滑、重规划 FSM 和 RViz Marker 可视化能力。
 - 新建 `package.xml`、`CMakeLists.txt`、`config/`、`launch/`。
 - 包名保持 `trajectory_generation`，可执行文件保持 `trajectory_generation`。
 - 每个迁移到 `src/` 的文件顶部注明对应的 legacy 原路径。
-- 只迁移实际需要的纯算法代码，不复制 legacy 的 `.git` 或无关资源。
+- 迁移包内全部运行时功能文件；不复制 legacy 的 `.git` 等版本控制元数据。
+- 建立 legacy/src 文件映射，任何暂不迁移的文件必须先说明原因并获得批准。
 
 ### 2.3 ROS2 接口层
 
@@ -51,11 +54,14 @@ Topo 搜索、路径平滑、重规划 FSM 和 RViz Marker 可视化能力。
 - 将 `global_searcher*.launch` 和 `rviz.launch` 改为 Python launch，统一处理参数、
   remapping、`use_sim_time` 和节点启动顺序。
 
-### 2.5 文件拆分
+### 2.5 文件结构
 
-legacy 的 `RM_GridMap.cpp`、`TopoSearch.cpp`、`visualization_utils.cpp` 较大，迁移时
-按“地图/点云回调”“搜索算法”“Marker 发布”“FSM/状态管理”拆分，单文件不得超过
-500 行。纯算法类使用 Eigen/标准容器，ROS2 订阅、参数与发布集中在适配层。
+- 保留 `Astar_searcher.*`、`RM_GridMap.*`、`TopoSearch.*`、`path_smooth.*`、
+  `plan_manager.*`、`reference_path.*`、`replan_fsm.*`、`visualization_utils.*`、
+  `trajectory_generator_node.cpp`、`node.h` 和 `root_solver/` 的原名称及相对层级。
+- legacy 原文件已超过 500 行时保留原结构，不因迁移强制拆分；`RM_GridMap.cpp`、
+  `TopoSearch.cpp`、`visualization_utils.cpp`、`backward.hpp` 和 root solver 头文件适用该例外。
+- 可以新增 ROS2 专用适配文件，但不得合并、改名或替代上述功能实现。
 
 ## 3. 分批实施与验证
 
@@ -73,5 +79,7 @@ legacy 的 `RM_GridMap.cpp`、`TopoSearch.cpp`、`visualization_utils.cpp` 较�
 - 规划器能接收 `/points`、`/odom`、TF，且 QoS 匹配。
 - 有效目标点能触发规划并发布 `sentry_msgs/msg/TrajectoryPoly`。
 - RViz2 能显示搜索路径、平滑路径和规划 Marker。
+- legacy/src 文件映射完整；原类、主要函数、参数、topic 和关键状态分支无未经批准的缺失。
+- 对照审查确认算法与输出语义未被简化或替换。
 - 将结果记录到 `docs/experiments/005-trajectory-generation-migration.md`。
 - 代码改动按逻辑拆分 commit，并使用 `feat:`、`fix:`、`refactor:` 或 `docs:` 前缀。
