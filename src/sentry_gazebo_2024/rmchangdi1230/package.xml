@@ -2,12 +2,18 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>rmchangdi1230</name>
-  <version>0.0.0</version>
-  <description>RMUC 2024 场地模型(world + meshes),自 ROS1 sentry_gazebo_2024 迁移</description>
+  <version>1.0.0</version>
+  <description>RMchangdi1230 field model migrated from ROS1.</description>
   <maintainer email="melody3328@qq.com">Anilam</maintainer>
   <license>BSD-3-Clause</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>ros_gz_sim</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
